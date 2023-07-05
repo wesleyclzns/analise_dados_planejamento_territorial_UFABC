@@ -20,6 +20,8 @@ plot(x = od$renPerCap,
      xlab = "Renda Per Capita",
      ylab = "∑ tempo medio de viagem (min)")
 
+ggplot(data = od, aes(x = renPerCap, y =tmv_somaTotalModal)) +   geom_point() +   geom_smooth(data = lm(formula = tmv_somaTotalModal ~ renPerCap, data = od), method = "lm", col = "red", se = FALSE) +   theme_bw() +   xlab("Renda per capita") +   ylab("∑ tempo medio de viagem (min)")
+
 #Acredito que não deveria estar fazendo o somatorio do TMV e sim a Media das Medias do TMV
 
 #Renda media / Media do Tempo Medio de Viagem
@@ -30,6 +32,9 @@ plot(x = od$renPerCap,
      y = od$tmv_mediaTotalModal,
      xlab = "Renda Per Capita",
      ylab = "Media dos tempo medio de viagem (min)")
+
+ggplot(data = od, aes(x = renPerCap, y =tmv_mediaTotalModal)) +   geom_point() +   geom_smooth(data = lm(formula = tmv_mediaTotalModal ~ renPerCap, data = od), method = "lm", col = "red", se = FALSE) +   theme_bw() +   xlab("Renda per capita") +   ylab("Media dos tempo medio de viagem (min)")
+
 
 #Coeficiente de correlação
 cor(x = od$renPerCap,
@@ -54,6 +59,9 @@ plot(x = od$renPerCap,
      y = od$tmv_individual,
      xlab = "Renda per capita",
      ylab = "Tempo medio de viagens em transporte individual (min)")
+
+ggplot(data = od, aes(x = renPerCap, y =tmv_individual)) +   geom_point() +   geom_smooth(data = lm(formula = tmv_individual ~ renPerCap, data = od), method = "lm", col = "red", se = FALSE) +   theme_bw() +   xlab("Renda per capita") +   ylab("Tempo medio de viagens em transporte individual (min)")
+
 
 #Coeficiente de correlação
 cor(x = od$renPerCap,

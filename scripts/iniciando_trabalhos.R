@@ -73,4 +73,26 @@ cor.test(x = od$renPerCap,
 # Aceitamos a hipotese nula
 #Nãoe existi alguma correlação entre a renda per capita e o tempo medio de viagens em transporte individual
 
+#Renda media / TMV A Pe
+plot(x = od$renPerCap,
+     y = od$tmv_pe,
+     xlab = "Renda per capita",
+     ylab = "Tempo medio de viagens em a pe (min)")
+
+#Coeficiente de correlação
+cor(x = od$renPerCap,
+    y = od$tmv_pe,
+    method = "pearson",
+    use = "complete.obs")
+# Resultado - >  -0.1017915
+
+cor.test(x = od$renPerCap,
+         y = od$tmv_pe,
+         method = "pearson",
+         alternative = "two.sided",
+         conf.level = 0.95)
+#t = -2.3221
+#df = 515
+#p-value = 0.02062
+#Não existe correlação entre o tempo de viagens a pe e a renda per capita
 

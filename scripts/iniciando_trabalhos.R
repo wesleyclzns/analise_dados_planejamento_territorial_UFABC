@@ -19,7 +19,16 @@ plot(x = od$renPerCap,
      y = od$tmv_somaTotalModal,
      xlab = "Renda Per Capita",
      ylab = "∑ tempo medio de viagem (min)")
+
 #Acredito que não deveria estar fazendo o somatorio do TMV e sim a Media das Medias do TMV
 
+#Renda media / Media do Tempo Medio de Viagem
+od["tmv_mediaTotalModal"] <- od$tmv_somaTotalModal/4
+od$tmv_mediaTotalModal
+
+plot(x = od$renPerCap,
+     y = od$tmv_mediaTotalModal,
+     xlab = "Renda Per Capita",
+     ylab = "Media dos tempo medio de viagem (min)")
 
 

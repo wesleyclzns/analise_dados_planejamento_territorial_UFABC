@@ -1,14 +1,19 @@
 getwd()
 #"D:/CM/ADPT"
-odJuntada <- read.csv("D:/CM/ADPT/odJuntada.csv")
-names(odJuntada)
-head(odJuntada)
-str(odJuntada)
+od <- read.csv("D:/CM/ADPT/dados/od.csv")
+names(od)
+head(od)
+str(od)
 
-mean(odJuntada$popFem, na.rm = TRUE)
-boxplot(odJuntada$populacao)
-hist(odJuntada$populacao)
+mean(od$popFem, na.rm = TRUE)
+boxplot(od$populacao)
+hist(od$populacao)
 
-qqnorm(odJuntada$populacao)
-qqline(odJuntada$populacao, col = "red")
+qqnorm(od$populacao)
+qqline(od$populacao, col = "red")
 
+hist(od$renPerCap)
+boxplot(od$renPerCap)
+
+qqnorm(od$renPerCap)
+qqline(od$renPerCap, col = "red")

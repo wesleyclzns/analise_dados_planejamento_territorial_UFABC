@@ -10,6 +10,16 @@ library(tidyverse)
 library(corrplot)
 library(Hmisc)
 
-od["tmv_totalModal"] <- od$tmv_coletivo + od$tmv_individual + od$tmv_pe + od$tmv_bike
-od$tmv_totalModal
+od <- read.csv("D:/CM/ADPT/dados/od.csv")
+
+od["tmv_somaTotalModal"] <- od$tmv_coletivo + od$tmv_individual + od$tmv_pe + od$tmv_bike
+od$tmv_somaTotalModal
+
+plot(x = od$renPerCap,
+     y = od$tmv_somaTotalModal,
+     xlab = "Renda Per Capita",
+     ylab = "∑ tempo medio de viagem (min)")
+#Acredito que não deveria estar fazendo o somatorio do TMV e sim a Media das Medias do TMV
+
+
 

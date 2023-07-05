@@ -96,3 +96,26 @@ cor.test(x = od$renPerCap,
 #p-value = 0.02062
 #Não existe correlação entre o tempo de viagens a pe e a renda per capita
 
+#Renda media / TMV Bike
+plot(x = od$renPerCap,
+     y = od$tmv_bike,
+     xlab = "Renda per capita",
+     ylab = "Tempo medio de viagens em bicicleta (min)")
+
+#Coeficiente de correlação
+cor(x = od$renPerCap,
+    y = od$tmv_bike,
+    method = "pearson",
+    use = "complete.obs")
+# Resultado - >  0.1787979
+
+cor.test(x = od$renPerCap,
+         y = od$tmv_bike,
+         method = "pearson",
+         alternative = "two.sided",
+         conf.level = 0.95)
+#t = 4.124
+#df = 515
+#p-value = 4.34e-05 ou 0.0000434
+#Rejeitamos a hipotese Nula
+#Pode existir correlação entre o tempo de viagens de bicicleta e a renda per capita

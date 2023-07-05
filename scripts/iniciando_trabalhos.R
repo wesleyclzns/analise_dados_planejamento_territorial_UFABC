@@ -31,4 +31,9 @@ plot(x = od$renPerCap,
      xlab = "Renda Per Capita",
      ylab = "Media dos tempo medio de viagem (min)")
 
-
+#Coeficiente de correlação
+cor(x = od$renPerCap,
+    y = od$tmv_mediaTotalModal,
+    method = "pearson",
+    use = "complete.obs")
+# Resultado - >  0.3256155

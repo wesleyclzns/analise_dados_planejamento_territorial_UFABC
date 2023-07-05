@@ -37,3 +37,21 @@ cor(x = od$renPerCap,
     method = "pearson",
     use = "complete.obs")
 # Resultado - >  0.3256155
+
+cor.test(x = od$renPerCap,
+         y = od$tmv_mediaTotalModal,
+         method = "pearson",
+         alternative = "two.sided",
+         conf.level = 0.95)
+#t = 7.8153
+#df = 515
+#p-value = 3.108e-14 ou 0.00000000000003108
+# Rejeitamos a hipotese nula
+#Pode existir alguma correlação entre a renda percapita e a media do tempo medio de viagens
+
+#Renda media / TMV Coletivo
+
+plot(x = od$renPerCap,
+     y = od$tmv_coletivo,
+     xlab = "Renda per capita",
+     ylab = "Tempo medio de viagens em transporte coletivo (min)")

@@ -87,6 +87,9 @@ plot(x = od$renPerCap,
      xlab = "Renda per capita",
      ylab = "Tempo medio de viagens em a pe (min)")
 
+ggplot(data = od, aes(x = renPerCap, y =tmv_pe)) +   geom_point() +   geom_smooth(data = lm(formula = tmv_pe ~ renPerCap, data = od), method = "lm", col = "red", se = FALSE) +   theme_bw() +   xlab("Renda per capita") +   ylab("Tempo medio de viagens em a pe (min)")
+
+
 #Coeficiente de correlação
 cor(x = od$renPerCap,
     y = od$tmv_pe,

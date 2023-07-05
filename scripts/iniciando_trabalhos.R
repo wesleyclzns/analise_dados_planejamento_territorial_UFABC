@@ -1,4 +1,5 @@
 #Baseado no roteiro 3
+#Caminho para a pasta: D:\CM\ADPT
 
 # INSTALAR A TIDYVERSE EM NOVOS PCs ANTES DE RODAR O SCRIPT
 #install.packages("tidyverse")
@@ -113,6 +114,9 @@ plot(x = od$renPerCap,
      xlab = "Renda per capita",
      ylab = "Tempo medio de viagens em bicicleta (min)")
 
+ggplot(data = od, aes(x = renPerCap, y =tmv_bike)) +   geom_point() +   geom_smooth(data = lm(formula = tmv_bike ~ renPerCap, data = od), method = "lm", col = "red", se = FALSE) +   theme_bw() +   xlab("Renda per capita") +   ylab("Tempo medio de viagens em bicicleta (min)")
+
+
 #Coeficiente de correlação
 cor(x = od$renPerCap,
     y = od$tmv_bike,
@@ -130,3 +134,30 @@ cor.test(x = od$renPerCap,
 #p-value = 4.34e-05 ou 0.0000434
 #Rejeitamos a hipotese Nula
 #Pode existir correlação entre o tempo de viagens de bicicleta e a renda per capita
+
+#Renda media / TMV Coletivo
+plot(x = od$renPerCap,
+     y = od$tmv_coletivo,
+     xlab = "Renda per capita",
+     ylab = "Tempo medio de viagens em transporte coletivo (min)")
+
+ggplot(data = od, aes(x = renPerCap, y =tmv_coletivo)) +   geom_point() +   geom_smooth(data = lm(formula = tmv_coletivo ~ renPerCap, data = od), method = "lm", col = "red", se = FALSE) +   theme_bw() +   xlab("Renda per capita") +   ylab("Tempo medio de viagens em transporte coletivo (min)")
+
+
+#Coeficiente de correlação
+cor(x = od$renPerCap,
+    y = od$tmv_coletivo,
+    method = "pearson",
+    use = "complete.obs")
+# Resultado - >  0.4034475
+
+cor.test(x = od$renPerCap,
+         y = od$tmv_coletivo,
+         method = "pearson",
+         alternative = "two.sided",
+         conf.level = 0.95)
+#t = 10.006
+#df = 515
+#p-value = 2.2e-16
+# Aceitamos a hipotese nula
+#Nãoe existi alguma correlação entre a renda per capita e o tempo medio de viagens em transporte coletivo

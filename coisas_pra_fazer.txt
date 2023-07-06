@@ -1,0 +1,28 @@
+Dividir
+
+População / viagem produz = popProdut
+População  / viagem atraída = popAtratora (isso faz sentido? Acho que não)
+
+
+Dispersão
+
+Viagem atraída & produzida -> local emprego (dentro/fora resid sem end)
+
+Hipótese nula:
+Zonas com grande atração não possuem muitos empregos fora da residência 
+
+Hipótese alternativa:
+Zonas com grande atração possuem muitos empregos fora da residência
+
+
+Dispersão
+
+Renda per capita -> viagem produzida por passageiro de auto (auto + táxi + táxi não convencional)
+
+Hipótese nula:
+Pessoas de zonas mais ricas não fazem mais viagens como passageiro de carro ou taxi
+
+Hipótese alternativa:
+Pessoas de zonas mais ricas fazem mais viagens como passageiro de carro ou taxi
+
+

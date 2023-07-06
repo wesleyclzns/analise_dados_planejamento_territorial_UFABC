@@ -188,5 +188,5 @@ cor.test(x = od$rendTotal,
 #t = 32.378
 #df = 515
 #p-value = 2.2e-16 ou 0.00000000000000022
-#Não existe correlação entre o tempo de viagens a pe e a renda per capita
+#Não existe correlação entre o viagens atraidas e renda total da zona
 

@@ -161,3 +161,32 @@ cor.test(x = od$renPerCap,
 #p-value = 2.2e-16
 # Aceitamos a hipotese nula
 #Nãoe existi alguma correlação entre a renda per capita e o tempo medio de viagens em transporte coletivo
+
+
+#Viagem atraída -> renda total da zona
+
+plot(x = od$rendTotal,
+     y = od$viagAtraid,
+     xlab = "Renda total",
+     ylab = "Viagens atraías")
+
+ggplot(data = od, aes(x = rendTotal, y =viagAtraid)) +   geom_point() +   geom_smooth(data = lm(formula = viagAtraid ~ rendTotal, data = od), method = "lm", col = "red", se = FALSE) +   theme_bw() +   xlab("Renda total") +   ylab("Viagens atraidas")
+
+
+#Coeficiente de correlação
+cor(x = od$rendTotal,
+    y = od$viagAtraid,
+    method = "pearson",
+    use = "complete.obs")
+# Resultado - >  0.8188885
+
+cor.test(x = od$rendTotal,
+         y = od$viagAtraid,
+         method = "pearson",
+         alternative = "two.sided",
+         conf.level = 0.95)
+#t = 32.378
+#df = 515
+#p-value = 2.2e-16 ou 0.00000000000000022
+#Não existe correlação entre o tempo de viagens a pe e a renda per capita
+

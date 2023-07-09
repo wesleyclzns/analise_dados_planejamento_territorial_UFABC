@@ -190,3 +190,6 @@ cor.test(x = od$rendTotal,
 #p-value = 2.2e-16 ou 0.00000000000000022
 #Não existe correlação entre o viagens atraidas e renda total da zona
 
+#APOS A PRESENTAÇÃO DA P1
+
+

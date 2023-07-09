@@ -192,4 +192,36 @@ cor.test(x = od$rendTotal,
 
 #APOS A PRESENTAÇÃO DA P1
 
+#População / viagem produz = popProdut
 
+od["popProdViagem"] <- od$populacao / od$viagProduz
+od$popProdViagem
+
+#População  / viagem atraída = popAtratora (isso faz sentido? Acho que não)
+
+od["popAtratoraViag"] <- od$populacao / od$viagAtraid
+od$popAtratoraViag
+
+#Viagem atraída & produzida -> local emprego (dentro/fora resid sem end)
+
+#Dispersão
+
+#População atratora de viagens -> Empregos
+plot(x = od$popAtratoraViag,
+     y = od$empregos,
+     xlab = "Pop Atratora",
+     ylab = "Empregos")
+
+ggplot(data = od, aes(x = popAtratoraViag, y =empregos)) +   geom_point() +   geom_smooth(data = lm(formula = popAtratoraViag ~ empregos, data = od), method = "lm", col = "blue", se = FALSE) +   theme_bw() +   xlab("Pop Atratora") +   ylab("Empregos")
+
+
+#População produtora de viagens -> Empregos
+plot(x = od$popProdViagem,
+     y = od$empregos,
+     xlab = "Pop Produtora",
+     ylab = "Empregos")
+
+ggplot(data = od, aes(x = popProdViagem, y =empregos)) +   geom_point() +   geom_smooth(data = lm(formula = popProdViagem ~ empregos, data = od), method = "lm", col = "blue", se = FALSE) +   theme_bw() +   xlab("Pop Produtora") +   ylab("Empregos")
+
+
+#Não faço ideia do que isso signifique!

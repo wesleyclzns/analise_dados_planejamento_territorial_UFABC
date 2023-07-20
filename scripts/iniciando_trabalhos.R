@@ -2,16 +2,19 @@
 #Caminho para a pasta: D:\CM\ADPT
 
 # INSTALAR A TIDYVERSE EM NOVOS PCs ANTES DE RODAR O SCRIPT
-#install.packages("tidyverse")
-#install.packages("corrplot")
-#install.packages("Hmisc")
+install.packages("tidyverse")
+install.packages("corrplot")
+install.packages("Hmisc")
+install.packages("dplyr")
+
 
 #RODAR SEMPRE PARA CARREGAR A LIB
 library(tidyverse)
 library(corrplot)
 library(Hmisc)
+library(dplyr)
 
-od <- read.csv("D:/CM/ADPT/dados/od.csv")
+od <- read.csv("G:/CM/ADPT/dados/od.csv")
 
 od["tmv_somaTotalModal"] <- od$tmv_coletivo + od$tmv_individual + od$tmv_pe + od$tmv_bike
 od$tmv_somaTotalModal
@@ -22,6 +25,7 @@ plot(x = od$renPerCap,
      ylab = "∑ tempo medio de viagem (min)")
 
 ggplot(data = od, aes(x = renPerCap, y =tmv_somaTotalModal)) +   geom_point() +   geom_smooth(data = lm(formula = tmv_somaTotalModal ~ renPerCap, data = od), method = "lm", col = "red", se = FALSE) +   theme_bw() +   xlab("Renda per capita") +   ylab("∑ tempo medio de viagem (min)")
+
 
 #Acredito que não deveria estar fazendo o somatorio do TMV e sim a Media das Medias do TMV
 
@@ -223,5 +227,53 @@ plot(x = od$popProdViagem,
 
 ggplot(data = od, aes(x = popProdViagem, y =empregos)) +   geom_point() +   geom_smooth(data = lm(formula = popProdViagem ~ empregos, data = od), method = "lm", col = "blue", se = FALSE) +   theme_bw() +   xlab("Pop Produtora") +   ylab("Empregos")
 
-
 #Não faço ideia do que isso signifique!
+
+#---------------------------------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------------------------------
+
+
+#Renda media / TMV Coletivo
+od["taxaColetivoTotal"] <- od$vt_total/od$tmv_coletivo
+od$taxaColetivoTotal
+
+dadox = od$renPerCa
+dadoy = od$taxaColetivoTotal
+
+plot(x = dadox,
+     y = dadoy,
+     xlab = "Renda per capita",
+     ylab = "Taxa Coletivo / viagens totais")
+
+od <- na.omit(od) # Remove observações com valores NA
+
+# Remove observações com valores ausentes ou infinitos da variável y
+data_clean <- na.omit(od)
+
+# Ajustar o modelo de regressão linear com os dados limpos
+lm_model <- lm(y ~ x, data = data_clean)
+
+ggplot(data = od, aes(x = dadox, y = dadoy)) +   
+  geom_point() +   geom_smooth(data = lm(formula = dadoy ~ dadox, data = od), 
+  method = "lm", col = "red", se = FALSE) + theme_bw() +   
+  xlab("Renda per capita") +   
+  ylab("Taxa Coletivo / viagens totais")
+
+
+#Coeficiente de correlação
+cor(x = od$renPerCap,
+    y = od$tmv_coletivo,
+    method = "pearson",
+    use = "complete.obs")
+# Resultado - >  0.4034475
+
+cor.test(x = od$renPerCap,
+         y = od$tmv_coletivo,
+         method = "pearson",
+         alternative = "two.sided",
+         conf.level = 0.95)
+#t = 10.006
+#df = 515
+#p-value = 2.2e-16
+# Aceitamos a hipotese nula
+#Nãoe existi alguma correlação entre a renda per capita e o tempo medio de viagens em transporte coletivo

@@ -35,7 +35,7 @@ cor(x = dadox,
     use = "complete.obs")
 # Resultado - >  0.4034475
 
-cor.test(x = odadox,
+cor.test(x = dadox,
          y = dadoy,
          method = "pearson",
          alternative = "two.sided",

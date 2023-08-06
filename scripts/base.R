@@ -23,7 +23,7 @@ lm_model <- lm(y ~ x, data = data_clean)
 
 ggplot(data = od, aes(x = dadox, y = dadoy)) +   
   geom_point() +   geom_smooth(data = lm(formula = dadoy ~ dadox, data = od), 
-                               method = "lm", col = "red", se = FALSE) + theme_bw() +   
+  method = "lm", col = "red", se = FALSE) + theme_bw() +   
   xlab(labelDadoX) +   
   ylab(labelDadoy)
 

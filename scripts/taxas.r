@@ -31,8 +31,13 @@ pesOD <- pesOD %>%
     tax_rendF4 = (pesOD$rendF4 / pesOD$rendTotal) *100,
     tax_rendF5 = (pesOD$rendF5 / pesOD$rendTotal) *100,
     
-    tax_vp_coletivoPub = (vp_trem + vp_bus + vp_metro),
-    idosos = popIdd_60.mais
+    tax_vp_coletivoPub = ((vp_trem + vp_bus + vp_metro) / vp_total) * 100,
+    tax_vp_coletivoPri = ((vp_trem + vp_bus + vp_metro) / vp_total) * 100,
+    tax_vp_coletivoPub = ((vp_trem + vp_bus + vp_metro) / vp_total) * 100,
+    tax_vp_taxiCom =,
+    tax_vp_taxiNCom = ,
+    tax_vp_auto = ((vp_passAuto + vp_dirigindoAuto) /vp_total) *100,
+    tax_vp_moto = ((vp_passMoto + vp_passAuto) /vp_total) *100
   )
 names(pesOD)
 

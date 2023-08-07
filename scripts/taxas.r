@@ -1,7 +1,9 @@
 getwd()
-# "C:/Users/w.cafe/Documents/analise_dados_planejamento_territorial_UFABC"
+#UF "C:/Users/w.cafe/Documents/analise_dados_planejamento_territorial_UFABC"
+#Casa "D:/CM/ADPT"
 
-pesOD <- read.csv("~/analise_dados_planejamento_territorial_UFABC/dados/pesOD.csv")
+pesOD <- read.csv("~/ADPT/dados/pesOD.csv")
+
 head(pesOD)
 names(pesOD)
 
@@ -12,13 +14,7 @@ library(dplyr)
 pesOD <- pesOD %>%
   mutate(
     tmv_somaTotalModal = tmv_coletivo + tmv_individual + tmv_pe + tmv_bike,
-    tmv_mediaTotalModal = tmv_somaTotalModal / 4,
-    
-    crianças = ((popIdd_0.3 + popIdd_4.6 + popIdd_7.10) /popTotal )*100, 
-    adolecentes = ((popIdd_11.14 + popIdd_15.17) /popTotal )*100, 
-    jovens = ((popIdd_18.22 + popIdd_23.29) /popTotal) *100, 
-    adultos = ((popIdd_30.39 + popIdd_40.49 + popIdd_50.59) / popTotal) *100, 
-    idosos = popIdd_60.mais 
+    tmv_mediaTotalModal = tmv_somaTotalModal / 4
   )
 names(pesOD)
 
@@ -34,13 +30,26 @@ pesOD <- pesOD %>%
     tax_vp_coletivoPub = ((vp_trem + vp_bus + vp_metro) / vp_total) * 100,
     tax_vp_coletivoPri = ((vp_trem + vp_bus + vp_metro) / vp_total) * 100,
     tax_vp_coletivoPub = ((vp_trem + vp_bus + vp_metro) / vp_total) * 100,
-    tax_vp_taxiCom =,
-    tax_vp_taxiNCom = ,
+    tax_vp_taxiCom = (vp_taxiCom / vp_total) *100,
+    tax_vp_taxiNCom = (vp_taxiNCom / vp_total) *100,
     tax_vp_auto = ((vp_passAuto + vp_dirigindoAuto) /vp_total) *100,
-    tax_vp_moto = ((vp_passMoto + vp_passAuto) /vp_total) *100
+    tax_vp_moto = ((vp_passMoto + vp_passAuto) /vp_total) *100,
+    tax_vp_pe = (vp_pe / vp_total) * 100,
+    tax_vp_bike = (vp_bike / vp_total) * 100,
+    
+    tax_crianças = ((popIdd_0.3 + popIdd_4.6 + popIdd_7.10) /popTotal )*100, 
+    tax_adolecentes = ((popIdd_11.14 + popIdd_15.17) /popTotal )*100, 
+    tax_jovens = ((popIdd_18.22 + popIdd_23.29) /popTotal) *100, 
+    tax_adultos = ((popIdd_30.39 + popIdd_40.49 + popIdd_50.59) / popTotal) *100, 
+    tax_idosos = (popIdd_60.mais / popTotal) *100,
+    
+    tax_popArea = (populacao /areaZona) *100,
+    tax_genFem = (popFem / populacao) *100,
+    tax_genMas = (popMasc / populacao) *100
+    
   )
 names(pesOD)
-
+head(pesOD)
 
 
 

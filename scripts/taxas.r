@@ -31,6 +31,7 @@ pesOD <- pesOD %>%
     tax_rendF4 = (pesOD$rendF4 / pesOD$rendTotal) *100,
     tax_rendF5 = (pesOD$rendF5 / pesOD$rendTotal) *100,
     
+    tax_vp_coletivoPub = (vp_trem + vp_bus + vp_metro),
     idosos = popIdd_60.mais
   )
 names(pesOD)

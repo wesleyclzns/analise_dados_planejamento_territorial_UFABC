@@ -18,6 +18,31 @@ od <- read.csv("D:/CM/ADPT/dados/od.csv")
 head(od)
 names(od) #117 colunas
 
+Dispercao = function (df, dadox , dadoy, labelDadoX, labelDadoy) {
+  
+  #PLOT
+  plot(x = dadox,
+       y = dadoy,
+       xlab = labelDadoX,
+       ylab = labelDadoy)
+  
+  fd <- na.omit(fd) # Remove observações com valores NA
+  
+  # Remove observações com valores ausentes ou infinitos da variável y
+  data_clean <- na.omit(df)
+  
+  # Ajustar o modelo de regressão linear com os dados limpos
+  lm_model <- lm(y ~ x, data = data_clean)
+  
+  #GGPLOT
+  ggplot(data = fd, aes(x = dadox, y = dadoy)) +   
+    geom_point() +   geom_smooth(data = lm(formula = dadoy ~ dadox, data = df), 
+                                 method = "lm", col = "red", se = FALSE) + theme_bw() +   
+    xlab(labelDadoX) +   
+    ylab(labelDadoy)
+  
+}
+
 od["tmv_somaTotalModal"] <- od$tmv_coletivo + od$tmv_individual + od$tmv_pe + od$tmv_bike
 od$tmv_somaTotalModal
 
@@ -25,6 +50,8 @@ plot(x = od$renPerCap,
      y = od$tmv_somaTotalModal,
      xlab = "Renda Per Capita",
      ylab = "∑ tempo medio de viagem (min)")
+
+Dispercao(od, od$renPerCap, od$tmv_somaTotalModal, "Renda Per Capita", "∑ tempo medio de viagem (min)")
 
 ggplot(data = od, aes(x = renPerCap, y =tmv_somaTotalModal)) +   geom_point() +   geom_smooth(data = lm(formula = tmv_somaTotalModal ~ renPerCap, data = od), method = "lm", col = "red", se = FALSE) +   theme_bw() +   xlab("Renda per capita") +   ylab("∑ tempo medio de viagem (min)")
 

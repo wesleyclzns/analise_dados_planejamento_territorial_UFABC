@@ -74,7 +74,7 @@ Dispercao(od, dadoX, dadoY, labelX, labelY, outputFolder)
 library(dplyr)
 library(corrplot)
 
-MatrizCorrelacao <- function(data, cols_excluir = character(0), tamanho = 1500) {
+MatrizCorrelacao <- function(data, cols_excluir = c("zona", "nomeZona"), tamanho = 1500) {
   # Excluir colunas especificadas
   data_selecionada <- data %>% select(-all_of(cols_excluir))
   
@@ -82,15 +82,19 @@ MatrizCorrelacao <- function(data, cols_excluir = character(0), tamanho = 1500) 
   cor_matrix <- cor(data_selecionada, method = "pearson", use = "pairwise.complete.obs") %>%
     round(digits = 2)
   
+  # Matriz de Correlação apenas para resultados significativos (p-valor <= 0.05)
+  significativas <- abs(cor_matrix) > 0.5  # Exemplo de critério, ajuste conforme necessário
+  cor_significativas <- cor_matrix * significativas
+  cor_significativas[!significativas] <- NA
+  
   # Personalizar a matriz de correlação
   png("matriz_correlacao.png", width = tamanho, height = tamanho, res = 300)
-  corrplot(cor_matrix, method = "color")
+  corrplot(cor_significativas, method = "color", tl.cex = 0.45, cl.cex = .001, tl.col = "black")
   dev.off()
 }
 
 # Exemplo de uso
-MatrizCorrelacao(od, cols_excluir = c("zona", "nomeZona"), tamanho = 3000)  # Substitua pelas colunas que deseja excluir e pelo tamanho desejado
-
+MatrizCorrelacao(od, tamanho = 3500)  # Substitua pelas colunas que deseja excluir e pelo tamanho desejado
 
 
 

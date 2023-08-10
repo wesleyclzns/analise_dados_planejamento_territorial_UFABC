@@ -22,6 +22,12 @@ od <- read.csv("D:/CM/ADPT/dados/od.csv")
 head(od)
 names(od) #117 colunas
 
+od["tmv_somaTotalModal"] <- od$tmv_coletivo + od$tmv_individual + od$tmv_pe + od$tmv_bike
+od$tmv_somaTotalModal
+
+#Renda media / Media do Tempo Medio de Viagem
+od["tmv_mediaTotalModal"] <- od$tmv_somaTotalModal/4
+
 Dispercao <- function(df, dadox, dadoy, labelDadoX, labelDadoy, outputFolder) {
   
   df_clean <- na.omit(df) # Remove observações com valores NA
@@ -65,32 +71,32 @@ labelX <- "Renda Per Capita"
 labelY <- "∑ tempo medio de viagem (min)"
 Dispercao(od, dadoX, dadoY, labelX, labelY, outputFolder)
 
+library(dplyr)
+library(corrplot)
+
+MatrizCorrelacao <- function(data, cols_excluir = character(0), tamanho = 1500) {
+  # Excluir colunas especificadas
+  data_selecionada <- data %>% select(-all_of(cols_excluir))
+  
+  # Matriz de Correlação
+  cor_matrix <- cor(data_selecionada, method = "pearson", use = "pairwise.complete.obs") %>%
+    round(digits = 2)
+  
+  # Personalizar a matriz de correlação
+  png("matriz_correlacao.png", width = tamanho, height = tamanho, res = 300)
+  corrplot(cor_matrix, method = "color")
+  dev.off()
+}
+
+# Exemplo de uso
+MatrizCorrelacao(od, cols_excluir = c("zona", "nomeZona"), tamanho = 3000)  # Substitua pelas colunas que deseja excluir e pelo tamanho desejado
 
 
-od["tmv_somaTotalModal"] <- od$tmv_coletivo + od$tmv_individual + od$tmv_pe + od$tmv_bike
-od$tmv_somaTotalModal
 
-plot(x = od$renPerCap,
-     y = od$tmv_somaTotalModal,
-     xlab = "Renda Per Capita",
-     ylab = "∑ tempo medio de viagem (min)")
 
-Dispercao(od, "renPerCap", "tmv_somaTotalModal", "Renda Per Capita", "∑ tempo medio de viagem (min)")
 
-ggplot(data = od, aes(x = renPerCap, y =tmv_somaTotalModal)) +   geom_point() +   geom_smooth(data = lm(formula = tmv_somaTotalModal ~ renPerCap, data = od), method = "lm", col = "red", se = FALSE) +   theme_bw() +   xlab("Renda per capita") +   ylab("∑ tempo medio de viagem (min)")
-
-#Acredito que não deveria estar fazendo o somatorio do TMV e sim a Media das Medias do TMV
-
-#Renda media / Media do Tempo Medio de Viagem
-od["tmv_mediaTotalModal"] <- od$tmv_somaTotalModal/4
-od$tmv_mediaTotalModal
-
-plot(x = od$renPerCap,
-     y = od$tmv_mediaTotalModal,
-     xlab = "Renda Per Capita",
-     ylab = "Media dos tempo medio de viagem (min)")
-
-ggplot(data = od, aes(x = renPerCap, y =tmv_mediaTotalModal)) +   geom_point() +   geom_smooth(data = lm(formula = tmv_mediaTotalModal ~ renPerCap, data = od), method = "lm", col = "red", se = FALSE) +   theme_bw() +   xlab("Renda per capita") +   ylab("Media dos tempo medio de viagem (min)")
+names(od)
+head(od)
 
 
 #Coeficiente de correlação
@@ -110,6 +116,24 @@ cor.test(x = od$renPerCap,
 #p-value = 3.108e-14 ou 0.00000000000003108
 # Rejeitamos a hipotese nula
 #Pode existir alguma correlação entre a renda percapita e a media do tempo medio de viagens
+
+
+# Realize o teste de correlação
+corTest_Resultado <- cor.test(x = od$renPerCap,
+                              y = od$tmv_mediaTotalModal,
+                              method = "pearson",
+                              alternative = "two.sided",
+                              conf.level = 0.95)
+
+# Adicione os resultados à coluna do conjunto de dados
+od$corTest <- paste("t =", corTest_Resultado$statistic,
+                             "p-value =", format(corTest_Resultado$p.value, scientific = TRUE),
+                             "CI =", paste(corTest_Resultado$conf.int, collapse = "-"),
+                             "cor =", corTest_Resultado$estimate)
+
+names(od)
+head(od)
+od <- subset(od, select = -corTest) #codigo para deletar coluna
 
 od["mo_trabTotal"] <- od$mo_traIndus + od$mo_trabCome + od$mo_trabServ
 od$tmv_mo_trabTotal

@@ -62,6 +62,12 @@ Dispercao <- function(df, dadox, dadoy, labelDadoX, labelDadoy, outputFolder) {
   ggsave(filename = outputFilePath, plot = gg, width = 8, height = 6)
 }
 
+#TMV_PUBLICO
+#ZonasRicas
+#ZonasPobres
+#TOTALPOP
+#TMVs
+
 
 # Exemplo de uso da Função dispersão
 outputFolder <- "./graficos/teste_funcao/"

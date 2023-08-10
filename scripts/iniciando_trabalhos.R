@@ -57,8 +57,7 @@ Dispercao <- function(df, dadox, dadoy, labelDadoX, labelDadoy, outputFolder) {
 }
 
 
-
-# Exemplo de uso
+# Exemplo de uso da Função dispersão
 outputFolder <- "./graficos/teste_funcao/"
 dadoX <- "renPerCap"
 dadoY <- "tmv_somaTotalModal"

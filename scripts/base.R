@@ -49,30 +49,29 @@ cor.test(x = dadox,
 #============================================================================
 #Função
 
-Dispercao <- function (df, dadox , dadoy, labelDadoX, labelDadoy) {
+Dispercao = function (df, dadox , dadoy, labelDadoX, labelDadoy) {
   
-  # PLOT
-  plot(x = df[[dadox]],
-       y = df[[dadoy]],
+  #PLOT
+  plot(x = dadox,
+       y = dadoy,
        xlab = labelDadoX,
        ylab = labelDadoy)
   
-  df_clean <- na.omit(df) # Remove observações com valores NA
+  fd <- na.omit(fd) # Remove observações com valores NA
+  
+  # Remove observações com valores ausentes ou infinitos da variável y
+  data_clean <- na.omit(df)
   
   # Ajustar o modelo de regressão linear com os dados limpos
-  lm_model <- lm(df_clean[[dadoy]] ~ df_clean[[dadox]], data = df_clean)
+  lm_model <- lm(y ~ x, data = data_clean)
   
-  # GGPLOT
-  library(ggplot2)
-  ggplot(data = df, aes(x = df[[dadox]], y = df[[dadoy]])) +   
-    geom_point() +   
-    geom_smooth(data = df_clean, aes(x = df_clean[[dadox]], y = df_clean[[dadoy]]), 
-                method = "lm", col = "red", se = FALSE) + 
-    theme_bw() +   
+  #GGPLOT
+  ggplot(data = fd, aes(x = dadox, y = dadoy)) +   
+    geom_point() +   geom_smooth(data = lm(formula = dadoy ~ dadox, data = df), 
+                                 method = "lm", col = "red", se = FALSE) + theme_bw() +   
     xlab(labelDadoX) +   
     ylab(labelDadoy)
   
-} 
-
+}
 
 #============================================================================

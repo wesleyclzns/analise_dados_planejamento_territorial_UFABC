@@ -5,11 +5,15 @@
 #install.packages("tidyverse")
 #install.packages("corrplot")
 #install.packages("Hmisc")
+#install.packages("ggplot2")
+
+
 
 #RODAR SEMPRE PARA CARREGAR A LIB
 library(tidyverse)
 library(corrplot)
 library(Hmisc)
+library(ggplot2)
 
 getwd()
 #"D:/CM/ADPT/scripts"
@@ -18,30 +22,51 @@ od <- read.csv("D:/CM/ADPT/dados/od.csv")
 head(od)
 names(od) #117 colunas
 
-Dispercao = function (df, dadox , dadoy, labelDadoX, labelDadoy) {
+Dispercao <- function(df, dadox, dadoy, labelDadoX, labelDadoy, outputFolder) {
   
-  #PLOT
-  plot(x = dadox,
-       y = dadoy,
+  df_clean <- na.omit(df) # Remove observações com valores NA
+  
+  # Ajustar o modelo de regressão linear com os dados limpos
+  lm_model <- lm(df_clean[[dadoy]] ~ df_clean[[dadox]], data = df_clean)
+  
+  #Cria o gráfico da plot
+  plot(x = df[[dadox]],
+       y = df[[dadoy]],
        xlab = labelDadoX,
        ylab = labelDadoy)
   
-  fd <- na.omit(fd) # Remove observações com valores NA
+  #Salve o gráfico plot em um arquivo png
+  outputFileName <- paste(labelDadoX, labelDadoy, "_plot.png", sep = "-")
+  outputFilePath <- file.path(outputFolder, outputFileName)
+  dev.copy(png, file = outputFilePath, width = 800, height = 600)
+  dev.off()
   
-  # Remove observações com valores ausentes ou infinitos da variável y
-  data_clean <- na.omit(df)
-  
-  # Ajustar o modelo de regressão linear com os dados limpos
-  lm_model <- lm(y ~ x, data = data_clean)
-  
-  #GGPLOT
-  ggplot(data = fd, aes(x = dadox, y = dadoy)) +   
-    geom_point() +   geom_smooth(data = lm(formula = dadoy ~ dadox, data = df), 
-                                 method = "lm", col = "red", se = FALSE) + theme_bw() +   
+  # Cria o Grafico do GGPLOT
+  library(ggplot2)
+  gg <- ggplot(data = df_clean, aes(x = .data[[dadox]], y = .data[[dadoy]])) +   
+    geom_point() +   
+    geom_smooth(method = "lm", col = "red", se = FALSE) + 
+    theme_bw() +   
     xlab(labelDadoX) +   
     ylab(labelDadoy)
   
+  # Salvar o gráfico do GG em um arquivo png
+  outputFileName <- paste(labelDadoX, labelDadoy, "_gg.png", sep = "-")
+  outputFilePath <- file.path(outputFolder, outputFileName)
+  ggsave(filename = outputFilePath, plot = gg, width = 8, height = 6)
 }
+
+
+
+# Exemplo de uso
+outputFolder <- "./graficos/teste_funcao/"
+dadoX <- "renPerCap"
+dadoY <- "tmv_somaTotalModal"
+labelX <- "Renda Per Capita"
+labelY <- "∑ tempo medio de viagem (min)"
+Dispercao(od, dadoX, dadoY, labelX, labelY, outputFolder)
+
+
 
 od["tmv_somaTotalModal"] <- od$tmv_coletivo + od$tmv_individual + od$tmv_pe + od$tmv_bike
 od$tmv_somaTotalModal
@@ -51,7 +76,7 @@ plot(x = od$renPerCap,
      xlab = "Renda Per Capita",
      ylab = "∑ tempo medio de viagem (min)")
 
-Dispercao(od, od$renPerCap, od$tmv_somaTotalModal, "Renda Per Capita", "∑ tempo medio de viagem (min)")
+Dispercao(od, "renPerCap", "tmv_somaTotalModal", "Renda Per Capita", "∑ tempo medio de viagem (min)")
 
 ggplot(data = od, aes(x = renPerCap, y =tmv_somaTotalModal)) +   geom_point() +   geom_smooth(data = lm(formula = tmv_somaTotalModal ~ renPerCap, data = od), method = "lm", col = "red", se = FALSE) +   theme_bw() +   xlab("Renda per capita") +   ylab("∑ tempo medio de viagem (min)")
 

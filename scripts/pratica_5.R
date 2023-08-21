@@ -21,41 +21,37 @@ pesOD <- read.csv("D:/CM/ADPT/dados/pesOD_taxas.csv")
 head(pesOD)
 names(pesOD)
 
-Dispercao <- function (df, dadox , dadoy, labelDadoX, labelDadoy) {
-  
-  # PLOT
-  plot(x = df[[dadox]],
-       y = df[[dadoy]],
-       xlab = labelDadoX,
-       ylab = labelDadoy)
-  
-  df_clean <- na.omit(df) # Remove observações com valores NA
-  
-  # Ajustar o modelo de regressão linear com os dados limpos
-  lm_model <- lm(df_clean[[dadoy]] ~ df_clean[[dadox]], data = df_clean)
-  # Adicione a linha de tendência ao gráfico base
-  abline(lm_model, col = "red")
-  
-  # Salvar a imagem
-  nome_arquivo <- paste(dadox, "_", dadoy, ".png", sep = "")
-  nome_completo_arquivo <- file.path("D:/CM/ADPT/graficos/funcao", nome_arquivo)
-  dev.copy(png, nome_completo_arquivo)
-  dev.off()
-  
-} 
+#Coeficiente de correlação
+cor(x = (pesOD$vp_taxiNCom+pesOD$vp_taxiCom),
+    y = pesOD$rendF5,
+    method = "pearson",
+    use = "complete.obs")
+# Resultado - >  0.4054405
+
+cor.test(x = (pesOD$vp_taxiNCom+pesOD$vp_taxiCom),
+         y = pesOD$rendF5,
+         method = "pearson",
+         alternative = "two.sided",
+         conf.level = 0.95)
 
 
-# Loop através das colunas para gráficos de dispersão
-colunas_excluir <- c("zona", "nomeZona")  # Colunas para excluir
+taxis <- (pesOD$vp_taxiNCom+pesOD$vp_taxiCom)
 
-for (dadox in setdiff(names(pesOD), colunas_excluir)) {
-  for (dadoy in setdiff(names(pesOD), c(colunas_excluir, dadox))) {
-    labelDadoX <- dadox
-    labelDadoy <- dadoy
-    
-    Dispercao(pesOD, dadox, dadoy, labelDadoX, labelDadoy)
-    
-    # Adicionar uma pausa entre os gráficos (opcional)
-    Sys.sleep(.01)  # Ajuste a duração do intervalo conforme necessário
-  }
-}
+#REgressão
+modelo <- lm(formula = taxis ~ rendF5, data = pesOD, na.action = na.exclude)
+
+summary(modelo)
+plot(modelo, which = 1)
+plot(modelo, which = 2)
+plot(modelo, which = 3)
+plot(modelo, which = 4)
+plot(modelo, which = 5)
+plot(modelo, which = 6)
+
+
+plot(x = (pesOD$vp_taxiNCom+pesOD$vp_taxiCom),
+     y = pesOD$rendF5,
+     xlab = "Taxis comuns e APPs",
+     ylab = "Pessoas com renda acima de R$ 11.448,00")
+abline(modelo, col = "red")
+

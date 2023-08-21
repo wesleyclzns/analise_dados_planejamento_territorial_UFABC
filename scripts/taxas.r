@@ -47,7 +47,9 @@ pesOD <- pesOD %>%
     
     tax_popArea = (populacao /areaZona) *100,
     tax_genFem = (popFem / populacao) *100,
-    tax_genMas = (popMasc / populacao) *100
+    tax_genMas = (popMasc / populacao) *100,
+    
+    tax_popArea = (populacao /areaZona) *100,
     
   )
 names(pesOD)

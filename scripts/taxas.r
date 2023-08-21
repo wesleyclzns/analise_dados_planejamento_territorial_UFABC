@@ -2,7 +2,7 @@ getwd()
 #UF "C:/Users/w.cafe/Documents/analise_dados_planejamento_territorial_UFABC"
 #Casa "D:/CM/ADPT"
 
-pesOD <- read.csv("~/ADPT/dados/pesOD.csv")
+pesOD <- read.csv("./dados/pesOD.csv")
 
 head(pesOD)
 names(pesOD)
@@ -18,9 +18,11 @@ pesOD <- pesOD %>%
   )
 names(pesOD)
 
+
 #Criando Taxas
 pesOD <- pesOD %>%
   mutate(
+    
     tax_rendF1 = (pesOD$rendF1 / pesOD$rendTotal) *100,
     tax_rendF2 = (pesOD$rendF2 / pesOD$rendTotal) *100,
     tax_rendF3 = (pesOD$rendF3 / pesOD$rendTotal) *100,
@@ -51,6 +53,6 @@ pesOD <- pesOD %>%
 names(pesOD)
 head(pesOD)
 
-
+write.csv(pesOD, file = "./dados/pesOD_taxas.csv", row.names = FALSE)
 
 
